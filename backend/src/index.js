@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import leetcodeRoutes from "./routes/leetcode.js"; 
+
 dotenv.config();
 
 const app = express();
@@ -7,13 +9,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.send("Lund Ke Padh Ley");
-  console.log("Lund Ke Padh Ley");
-  console.log(req)
-});
+app.use('/api', leetcodeRoutes); 
 
-const port = process.env.PORT || 3000;
+// app.get("/", (req, res) => {
+//   res.send("Lund Ke Padh Ley");
+//   console.log("Lund Ke Padh Ley");
+// });
+
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

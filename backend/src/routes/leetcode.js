@@ -1,29 +1,86 @@
 import express from 'express';
 import fetch from 'node-fetch';
-import { OpenAI } from 'openai';
 
 const router = express.Router();
-const openai = new OpenAI(process.env.OPENAI_API_KEY);
+
+const transformLeetCodeData = (rawData) => {
+  const user = rawData.data.matchedUser;
+
+  if (!user) return null;
+
+  const profile = user.profile;
+  const acData = user.submitStats.acSubmissionNum;
+  const totalSubmissions = user.submitStats.totalSubmissionNum;
+
+  const getDifficultyCount = (difficulty) =>
+    acData.find(d => d.difficulty.toLowerCase() === difficulty)?.count || 0;
+
+  const accepted = acData.find(d => d.difficulty === 'All')?.count || 0;
+  const total = totalSubmissions[0]?.submissions || 0;
+
+  const calendarObj = JSON.parse(user.userCalendar.submissionCalendar || '{}');
+  const sortedTimestamps = Object.keys(calendarObj).map(Number).sort();
+  const lastWeek = sortedTimestamps
+    .slice(-7)
+    .map(ts => calendarObj[ts] > 0);
+
+  const transformed = {
+    username: user.username,
+    avatar: profile.userAvatar || null,
+    joinDate: null, // Not available
+    rank: profile.ranking?.toLocaleString() ?? null,
+    problemStats: {
+      total,
+      solved: accepted,
+      easy: getDifficultyCount('easy'),
+      medium: getDifficultyCount('medium'),
+      hard: getDifficultyCount('hard')
+    },
+    streak: {
+      current: null,
+      longest: null,
+      lastWeek
+    },
+    stats: {
+      acceptanceRate: total ? (accepted / total * 100).toFixed(1) : null,
+      submissions: total,
+      accepted,
+      contestRating: null,
+      contestsAttended: null,
+      solutions: null,
+      reputation: profile.reputation ?? 0,
+      views: null
+    }
+  };
+
+  return transformed;
+};
 
 router.get('/profile/:username', async (req, res) => {
   try {
     const { username } = req.params;
     const leetCodeAPI = 'https://leetcode.com/graphql';
     const query = `
-      query userProfile($username: String!) {
+      query getUserDashboardData($username: String!) {
         matchedUser(username: $username) {
           username
+          profile {
+            userAvatar
+            reputation
+            ranking
+          }
           submitStats: submitStatsGlobal {
             acSubmissionNum {
               difficulty
               count
               submissions
             }
+            totalSubmissionNum {
+              submissions
+            }
           }
-          profile {
-            ranking
-            reputation
-            starRating
+          userCalendar {
+            submissionCalendar
           }
         }
       }
@@ -44,58 +101,12 @@ router.get('/profile/:username', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const { matchedUser } = data.data;
-    const stats = matchedUser.submitStats.acSubmissionNum.reduce((acc, curr) => {
-      acc[curr.difficulty.toLowerCase()] = curr.count;
-      return acc;
-    }, {});
-
-    const profile = {
-      username: matchedUser.username,
-      totalSolved: stats.all || 0,
-      easySolved: stats.easy || 0,
-      mediumSolved: stats.medium || 0,
-      hardSolved: stats.hard || 0,
-      ranking: matchedUser.profile.ranking,
-      reputation: matchedUser.profile.reputation,
-      acceptanceRate: ((stats.all / matchedUser.submitStats.acSubmissionNum[0].submissions) * 100).toFixed(1),
-    };
-
-    res.json(profile);
+    const transformedProfile = transformLeetCodeData(data);
+    console.log(transformLeetCodeData)
+    res.json(transformedProfile);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Failed to fetch LeetCode profile' });
-  }
-});
-
-router.post('/analyze', async (req, res) => {
-  try {
-    const { profile } = req.body;
-    
-    const prompt = `
-      Analyze this LeetCode profile:
-      - Total problems solved: ${profile.totalSolved}
-      - Easy: ${profile.easySolved}
-      - Medium: ${profile.mediumSolved}
-      - Hard: ${profile.hardSolved}
-      - Acceptance rate: ${profile.acceptanceRate}%
-      - Ranking: ${profile.ranking}
-
-      Provide a detailed analysis including:
-      1. Current skill level assessment
-      2. Areas of strength and improvement
-      3. Recommendations for next steps
-      4. Suggested problem types to focus on
-      Keep the tone encouraging and constructive.
-    `;
-
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: prompt }],
-    });
-
-    res.json({ analysis: completion.choices[0].message.content });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to analyze profile' });
   }
 });
 
