@@ -9,22 +9,8 @@ export const Header = () => {
           to="/"
           className="flex items-center space-x-2 text-indigo-600 hover:text-indigo-700 transition-colors"
         >
-          <span className="font-semibold text-lg">LeetCode Profile</span>
+          <span className="tracking-widest font-semibold text-lg">LeetMetric</span>
         </Link>
-        <div className="flex items-center space-x-2 ">
-          <Link
-            to="/login"
-            className="flex items-center space-x-2 text-indigo-600 hover:text-indigo-700 transition-colors"
-          >
-            <span className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors">Login</span>
-          </Link>
-          <Link
-            to="/register"
-            className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
-          >
-            Register
-          </Link>
-        </div>
       </div>
     </header>
   );

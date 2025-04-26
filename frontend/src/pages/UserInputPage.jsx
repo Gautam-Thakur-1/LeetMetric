@@ -39,7 +39,7 @@ export const UserInputPage = () => {
             </div>
           </div>
           <h1 className="text-3xl font-semibold text-gray-900 mb-2">
-            LeetCode Profile Viewer
+            <span className='tracking-wider text-indigo-800'>LeetMetric: </span>LeetCode Profile Analyzer
           </h1>
           <p className="text-gray-500">
             Enter a LeetCode username to view their stats and progress
@@ -61,7 +61,7 @@ export const UserInputPage = () => {
                   placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 
                   focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-gray-900
                   transition-all duration-200 ease-in-out"
-                placeholder="e.g. johnsmith123"
+                placeholder="e.g. Gautam_Thakur"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />

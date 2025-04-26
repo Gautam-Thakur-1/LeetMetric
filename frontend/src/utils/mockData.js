@@ -26,7 +26,7 @@
   //           views: 1243
   //         }
   //       }
-// Fetch user profile from your local API
+// Fetch user profile from local API
 export const getUserProfile = async (username) => {
   try {
     const response = await fetch(`/api/profile/${username}`);

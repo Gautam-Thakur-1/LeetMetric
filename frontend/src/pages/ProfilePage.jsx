@@ -71,9 +71,9 @@ export const ProfilePage = () => {
 
       <ProfileHeader userData={userData} />
 
-      <div className="mt-8">
+      <div className="mt-4">
         <Card className="p-6">
-          <StreakBar streak={userData.streak} />
+          <StreakBar username={username} />
         </Card>
       </div>
 

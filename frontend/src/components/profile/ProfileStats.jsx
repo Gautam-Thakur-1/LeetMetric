@@ -5,11 +5,9 @@ export const ProfileStats = ({ stats }) => {
     { label: 'Acceptance Rate', value: `${stats.acceptanceRate}%` },
     { label: 'Submissions', value: stats.submissions },
     { label: 'Accepted', value: stats.accepted },
-    { label: 'Contest Rating', value: stats.contestRating },
+    { label: 'Contest Rating', value: Math.floor(stats.contestRating) },
     { label: 'Contest Attended', value: stats.contestsAttended },
-    { label: 'Solutions', value: stats.solutions },
     { label: 'Reputation', value: stats.reputation },
-    { label: 'Views', value: stats.views },
   ];
 
   return (
