@@ -7,7 +7,7 @@ import { DifficultyChart } from "../components/profile/DifficultyChart";
 import { StreakBar } from "../components/profile/StreakBar";
 import { ProfileStats } from "../components/profile/ProfileStats";
 import { ProfileHeader } from "../components/profile/ProfileHeader";
-import { getUserProfile } from "../utils/mockData";
+import { getUserProfile } from "../utils/fetchData";
 import { LoadingSpinner } from "../components/ui/LoadingSpinner";
 
 export const ProfilePage = () => {

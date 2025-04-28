@@ -28,8 +28,11 @@
   //       }
 // Fetch user profile from local API
 export const getUserProfile = async (username) => {
+
+  const baseUrl = "https://leet-metric-jet.vercel.app/"
+  
   try {
-    const response = await fetch(`/api/profile/${username}`);
+    const response = await fetch(`${baseUrl}/api/profile/${username}`);
     
     if (!response.ok) {
       throw new Error('Failed to fetch user profile');

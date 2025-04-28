@@ -2,14 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 import { format, eachDayOfInterval, subDays, startOfDay } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export const StreakBar = ({username}) => {
+export const StreakBar = ({ username }) => {
+  const baseUrl = "https://leet-metric-jet.vercel.app/";
   const scrollContainerRef = useRef(null);
   const [streakData, setStreakData] = useState(null);
 
   useEffect(() => {
     const fetchStreakData = async () => {
       try {
-        const response = await fetch(`/api/profile/${username}/streak`);
+        const response = await fetch(
+          `${baseUrl}/api/profile/${username}/streak`
+        );
         console.log("The Searched username is", username);
         console.log(response);
         const data = await response.json();
