@@ -30,11 +30,6 @@ app.use(
   })
 );
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
 app.use("/api", leetcodeRoutes);
 
 app.get("/", (req, res) => {
