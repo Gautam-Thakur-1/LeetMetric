@@ -1,20 +1,46 @@
 import express from "express";
 import dotenv from "dotenv";
-import leetcodeRoutes from "./routes/leetcode.js"; 
+import cors from "cors";
+import leetcodeRoutes from "./routes/leetcode.js";
 
 dotenv.config();
 
 const app = express();
+const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api', leetcodeRoutes); 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://leetmetrix.netlify.app/",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"), false);
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+app.use("/api", leetcodeRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Lund Ke Padh Ley");
-  console.log("Lund Ke Padh Ley");
+  res.send({
+    Routes: ["/profile/:username", "/profile/:username/streak"],
+  });
 });
 
 export default app;
-
