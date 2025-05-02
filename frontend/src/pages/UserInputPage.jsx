@@ -38,18 +38,18 @@ export const UserInputPage = () => {
               <Code2 className="h-10 w-10 text-indigo-600" />
             </div>
           </div>
-          <h1 className="text-3xl font-semibold text-gray-900 mb-2">
-            <span className='tracking-wider text-indigo-800'>LeetMetric: </span>LeetCode Profile Analyzer
+          <h1 className="text-3xl font-semibold dark:text-[#EBD3F8] text-gray-900 mb-4">
+            <span className='tracking-wider dark:text-[#ffffff] text-indigo-800'>LeetMetric: </span>LeetCode Profile Analyzer
           </h1>
-          <p className="text-gray-500">
+          <p className="dark:text-[#EBD3F8]">
             Enter a LeetCode username to view their stats and progress
           </p>
         </div>
 
         <Card>  
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form  onSubmit={handleSubmit} className="hover:scale-105 transition-transform duration-200 p-12 space-y-6">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="username" className=" dark:text-[#EBD3F8] block text-sm font-medium  text-gray-700 mb-1">
                 LeetCode Username
               </label>
               <input
@@ -71,7 +71,7 @@ export const UserInputPage = () => {
             <Button 
               type="submit" 
               isLoading={isLoading}
-              className="group w-full"
+              className="group w-full dark:bg-[#7A1CAC] dark:text-[#ffffff]"
             >
               <span className="flex items-center justify-center">
                 View Profile

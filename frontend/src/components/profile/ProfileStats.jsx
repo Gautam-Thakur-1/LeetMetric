@@ -13,9 +13,9 @@ export const ProfileStats = ({ stats }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
       {statItems.map((item, index) => (
-        <div key={index} className="p-4 bg-gray-50 rounded-lg flex flex-col justify-between h-24">
-          <p className="text-sm font-medium text-gray-500">{item.label}</p>
-          <p className="text-xl font-mono font-semibold text-gray-900">{item.value}</p>
+        <div key={index} className="p-2 bg-gray-50 dark:bg-[#EBD3F8] rounded-lg flex flex-col justify-between  h-24">
+          <p className="text-sm font-medium  text-gray-650">{item.label}</p>
+          <p className="text-xl font-mono font-semibold  text-gray-900">{item.value}</p>
         </div>
       ))}
   </div>

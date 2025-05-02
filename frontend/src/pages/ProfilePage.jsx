@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Card } from "../components/ui/Card";
@@ -15,7 +15,6 @@ export const ProfilePage = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     if (username) {
       const fetchData = async () => {
@@ -45,15 +44,15 @@ export const ProfilePage = () => {
   if (!userData) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
-        <Card className="text-center max-w-md w-full p-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+        <Card className=" text-center max-w-md w-full p-8">
+          <h2 className="text-2xl font-semibold dark:text-white text-gray-900 mb-4">
             User Not Found
           </h2>
-          <p className="text-gray-500 mb-6">
+          <p className="text-gray-500 dark:text-gray-300 mb-6">
             We couldn't find a LeetCode profile for "{username}". Please check
             the username and try again.
           </p>
-          <Button onClick={() => navigate("/")}>
+          <Button className="bg-[#2E073F] hover:bg-[#7b3799]" onClick={() => navigate("/")}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Go Back
           </Button>
@@ -64,7 +63,7 @@ export const ProfilePage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <Button variant="ghost" onClick={() => navigate("/")} className="mb-6">
+      <Button variant="ghost" onClick={() => navigate("/")} className="dark:text-white hover:bg-transparent mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Search
       </Button>
@@ -79,7 +78,7 @@ export const ProfilePage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         <Card className="p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <h2 className="dark:text-white text-xl font-semibold text-gray-900 mb-4">
             Problem Difficulty
           </h2>
           <DifficultyChart
@@ -90,7 +89,7 @@ export const ProfilePage = () => {
         </Card>
 
         <Card className="p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <h2 className="dark:text-white text-xl font-semibold text-gray-900 mb-4">
             Detailed Statistics
           </h2>
           <ProfileStats stats={userData.stats} />

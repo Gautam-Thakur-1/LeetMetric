@@ -3,7 +3,7 @@ import { format, eachDayOfInterval, subDays, startOfDay } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const StreakBar = ({ username }) => {
-  const baseUrl = "https://leet-metric-jet.vercel.app/";
+  const baseUrl = import.meta.env.VITE_BASE_URL
   const scrollContainerRef = useRef(null);
   const [streakData, setStreakData] = useState(null);
 
@@ -50,7 +50,7 @@ export const StreakBar = ({ username }) => {
   });
 
   const getSubmissionColor = (count) => {
-    if (count === 0) return "bg-[#1b1f23]";
+    if (count === 0) return "bg-slate-400"; 
     if (count <= 1) return "bg-[#0e4429]";
     if (count <= 3) return "bg-[#006d32]";
     if (count <= 5) return "bg-[#26a641]";
@@ -78,8 +78,8 @@ export const StreakBar = ({ username }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-medium text-gray-900">Contributions</h3>
-        <div className="flex items-center gap-4 text-sm text-gray-600">
+        <h3 className="text-base font-medium dark:text-white text-gray-900">Contributions</h3>
+        <div className="flex items-center gap-4 text-sm dark:text-gray-100 text-gray-700">
           {/* <span>{submissions} total</span> */}
           {/* <span>{totalActiveDays} active days</span> */}
           <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ export const StreakBar = ({ username }) => {
           onClick={() => scroll("left")}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-1 rounded-full bg-white shadow-md hover:bg-gray-50"
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="size-5" />
         </button>
 
         <div
@@ -116,7 +116,7 @@ export const StreakBar = ({ username }) => {
                 {week.map((day, dayIndex) => (
                   <div
                     key={`${weekIndex}-${dayIndex}`}
-                    className={`h-3 w-3 rounded-sm ${getSubmissionColor(
+                    className={`h-3 w-3 rounded-sm ${day.count === 0 ? "dark:bg-slate-150" : ""} ${getSubmissionColor(
                       day.count
                     )} transition-all hover:scale-125`}
                     title={`${day.count} contributions on ${day.date}`}
